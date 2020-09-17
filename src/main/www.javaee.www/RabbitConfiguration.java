@@ -1,10 +1,7 @@
 package main.www.javaee.www;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageListener;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -46,5 +43,35 @@ public class RabbitConfiguration {
     @Bean
     public Queue myQueue2(){
         return new Queue("example2");
+    }
+
+
+
+    //объявляем очередь с именем example3
+    @Bean
+    public Queue myQueue3(){
+        return new Queue("example3");
+    }
+
+
+    //объявляем очередь с именем example4
+    @Bean
+    public Queue myQueue4(){
+        return new Queue("example4");
+    }
+
+    @Bean
+    public FanoutExchange fanoutExchangeA(){
+        return new FanoutExchange("exchange-example-3");
+    }
+
+    @Bean
+    public Binding binding1(){
+        return BindingBuilder.bind(myQueue3()).to(fanoutExchangeA());
+    }
+
+    @Bean
+    public Binding binding2(){
+        return BindingBuilder.bind(myQueue4()).to(fanoutExchangeA());
     }
 }
