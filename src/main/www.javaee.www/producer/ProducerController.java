@@ -1,7 +1,7 @@
-package main.www.javaee.www;
+package main.www.javaee.www.producer;
 
 import lombok.extern.slf4j.Slf4j;
-import main.www.javaee.www.rabbit1.SendService;
+import main.www.javaee.www.producer.SendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

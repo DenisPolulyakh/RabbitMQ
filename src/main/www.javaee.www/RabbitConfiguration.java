@@ -41,16 +41,10 @@ public class RabbitConfiguration {
         return new Queue("example1");
     }
 
+
+    //объявляем очередь с именем example2
     @Bean
-    SimpleMessageListenerContainer messageListenerContainer(){
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory());
-        container.setQueueNames("example1");
-        //тут ловим сообщения из queue1
-        container.setMessageListener((MessageListener) message -> log.info("received from example1 : " + new String(message.getBody())));
-        return container;
+    public Queue myQueue2(){
+        return new Queue("example2");
     }
-
-
-
 }

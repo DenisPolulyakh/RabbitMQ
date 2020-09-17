@@ -1,4 +1,4 @@
-package main.www.javaee.www.rabbit1;
+package main.www.javaee.www.producer;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -26,6 +26,7 @@ class ThreadRunner implements Runnable {
             try {
                 Thread.sleep(random.nextInt(1001));
                 template.convertAndSend("example1", "Hello, World");
+                template.convertAndSend("example2", "Try, Try, Try, catch....");
             } catch (InterruptedException e) {
                 log.error("Ошибка работы в потоке ", e);
                 return;
