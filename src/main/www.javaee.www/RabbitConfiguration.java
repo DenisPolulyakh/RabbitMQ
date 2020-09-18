@@ -74,6 +74,22 @@ public class RabbitConfiguration {
     }
 
 
+    //объявляем очередь с именем example7
+    @Bean
+    public Queue myQueue7() {
+        return new Queue("example7");
+    }
+
+
+    //объявляем очередь с именем example8
+    @Bean
+    public Queue myQueue8() {
+        return new Queue("example8");
+    }
+
+
+
+
     //Publish/Subscribe
     @Bean
     public FanoutExchange fanoutExchangeA() {
@@ -115,6 +131,31 @@ public class RabbitConfiguration {
     public Binding warningBinding(){
         return BindingBuilder.bind(myQueue5()).to(directExchange()).with("warning");
     }
+
+    //Topic
+
+    @Bean
+    public TopicExchange topicExchange(){
+        return new TopicExchange("topic-exchange");
+    }
+
+
+    @Bean
+    public Binding topicBinding1(){
+        return BindingBuilder.bind(myQueue7()).to(topicExchange()).with("*.orange.*");
+    }
+
+    @Bean
+    public Binding topicBinding2(){
+        return BindingBuilder.bind(myQueue8()).to(topicExchange()).with("*.*.rabbit");
+    }
+
+    @Bean
+    public Binding topicBinding3(){
+        return BindingBuilder.bind(myQueue8()).to(topicExchange()).with("lazy.#");
+    }
+
+
 
 
 }
