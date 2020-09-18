@@ -40,4 +40,16 @@ public class ProducerController {
         sendService.sendTopic(key,message);
         return String.format("Send '%s' to '%s'",message,key);
     }
+
+    @RequestMapping("/process/{message}")
+    @ResponseBody
+    String error(@PathVariable("message") String message) {
+        log.info(String.format("Send '%s'",message));
+        Integer response = sendService.directReplyTo(message);
+        log.info(String.format("Received on producer '%s'",response));
+        return String.valueOf("returned from worker : " + response);
+    }
+
 }
+
+

@@ -7,6 +7,7 @@ import main.www.javaee.www.rabbit4.RountingKey;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -18,9 +19,11 @@ import java.util.Random;
 class ThreadRunner implements Runnable {
     private final Random random = new Random();
     private boolean run = true;
+    /*@Autowired
+    @Qualifier("amqpAdmin")
+    private AmqpTemplate template;*/
     @Autowired
-    private AmqpTemplate template;
-    @Autowired
+    @Qualifier("rabbitTemplate")
     private RabbitTemplate rabbitTemplate;
 
 

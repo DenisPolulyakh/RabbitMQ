@@ -1,12 +1,12 @@
 package main.www.javaee.www;
 
 import lombok.extern.slf4j.Slf4j;
-import main.www.javaee.www.rabbit4.RountingKey;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -88,6 +88,11 @@ public class RabbitConfiguration {
     }
 
 
+    //объявляем очередь с именем example8
+    @Bean
+    public Queue myQueue9() {
+        return new Queue("example9");
+    }
 
 
     //Publish/Subscribe
@@ -113,49 +118,55 @@ public class RabbitConfiguration {
     }
 
     @Bean
-    public Binding errorBinding1(){
+    public Binding errorBinding1() {
         return BindingBuilder.bind(myQueue5()).to(directExchange()).with("error");
     }
 
     @Bean
-    public Binding errorBinding2(){
+    public Binding errorBinding2() {
         return BindingBuilder.bind(myQueue6()).to(directExchange()).with("error");
     }
 
     @Bean
-    public Binding infoBinding(){
+    public Binding infoBinding() {
         return BindingBuilder.bind(myQueue5()).to(directExchange()).with("info");
     }
 
     @Bean
-    public Binding warningBinding(){
+    public Binding warningBinding() {
         return BindingBuilder.bind(myQueue5()).to(directExchange()).with("warning");
     }
 
     //Topic
 
     @Bean
-    public TopicExchange topicExchange(){
+    public TopicExchange topicExchange() {
         return new TopicExchange("topic-exchange");
     }
 
 
     @Bean
-    public Binding topicBinding1(){
+    public Binding topicBinding1() {
         return BindingBuilder.bind(myQueue7()).to(topicExchange()).with("*.orange.*");
     }
 
     @Bean
-    public Binding topicBinding2(){
+    public Binding topicBinding2() {
         return BindingBuilder.bind(myQueue8()).to(topicExchange()).with("*.*.rabbit");
     }
 
     @Bean
-    public Binding topicBinding3(){
+    public Binding topicBinding3() {
         return BindingBuilder.bind(myQueue8()).to(topicExchange()).with("lazy.#");
     }
 
 
-
+    @Bean()
+    public RabbitTemplate directReplyTo() {
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
+        rabbitTemplate.setQueue("example9");
+        rabbitTemplate.setReplyTimeout(120 * 1000);
+        return rabbitTemplate;
+    }
 
 }

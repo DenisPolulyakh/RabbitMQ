@@ -3,6 +3,7 @@ package main.www.javaee.www.producer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,7 +11,12 @@ import org.springframework.stereotype.Service;
 public class SendService {
 
     @Autowired
+    @Qualifier("rabbitTemplate")
     RabbitTemplate topicTemplate;
+
+    @Autowired
+    @Qualifier("directReplyTo")
+    RabbitTemplate directReplyTo;
 
     @Autowired
     private ThreadRunner threadRunner;
@@ -44,4 +50,8 @@ public class SendService {
     }
 
 
+    public Integer directReplyTo(String message) {
+        Integer response = (Integer) topicTemplate.convertSendAndReceive("example9", message);
+        return response;
+    }
 }
